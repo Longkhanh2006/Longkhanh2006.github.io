@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 !DOCTYPE html>
 <html lang="en">
 <head>
@@ -1094,4 +1095,1102 @@ window.processCheckIn = function(bid, rid) {
 
     </script>
 </body>
+=======
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System - Pro Demo</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* === RESET & CSS VARIABLES === */
+        :root {
+            --primary: #1E3A8A;
+            --secondary: #3b82f6;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-light: #f3f4f6;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* === SIDEBAR (NAVIGATION) === */
+        .sidebar {
+            width: 260px;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .nav-links li {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-links li:hover, .nav-links li.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+
+        .nav-links li.active {
+            color: var(--accent);
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .topbar {
+            background: var(--white);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .content-area {
+            padding: 32px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--primary);
+        }
+
+        /* === DASHBOARD CARDS === */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .bg-blue { background: #DBEAFE; color: var(--secondary); }
+        .bg-green { background: #D1FAE5; color: var(--success); }
+        .bg-orange { background: #FEF3C7; color: var(--accent); }
+
+        .stat-info h3 { font-size: 28px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+        .stat-info p { color: var(--text-muted); font-size: 14px; }
+
+        /* === ROOMS GRID === */
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .room-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .room-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .room-info {
+            padding: 20px;
+        }
+
+        .room-info h3 { margin-bottom: 8px; font-size: 18px;}
+        .room-price { color: var(--accent); font-weight: 600; font-size: 20px; margin-bottom: 16px; }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn-primary { background: var(--secondary); color: var(--white); width: 100%; justify-content: center; }
+        .btn-accent { background: var(--accent); color: var(--white); }
+        .btn-success { background: var(--success); color: var(--white); padding: 6px 12px; font-size: 12px; }
+        .btn-danger { background: var(--danger); color: var(--white); padding: 6px 12px; font-size: 12px;}
+
+        /* === TABLE === */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 24px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th { background-color: #f9fafb; font-weight: 600; color: var(--text-muted); }
+        
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-booked { background: #FEF3C7; color: #D97706; }
+        .badge-checked-in { background: #D1FAE5; color: #059669; }
+        .badge-completed { background: #F3F4F6; color: #4B5563; }
+        
+        .badge-available { background: #D1FAE5; color: #059669; }
+        .badge-occupied { background: #DBEAFE; color: #1E3A8A; }
+        .badge-cleaning { background: #FEF08A; color: #854D0E; }
+        .badge-maintenance { background: #FECACA; color: #991B1B; }
+        .badge-pending { background: #FDE68A; color: #D97706; }
+
+        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; background: white; padding: 16px; border-radius: 8px; box-shadow: var(--shadow); align-items: center;}
+        .search-bar input, .search-bar select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; flex: 1; }
+
+        /* === MODAL FORM === */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 32px;
+            border-radius: var(--border-radius);
+            width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 16px; right: 16px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        /* === LOGIN SCREEN === */
+        #login-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .login-box {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .login-box h2 { color: var(--primary); margin-bottom: 24px; }
+        .login-box .form-group { text-align: left; }
+
+        /* Social Login UI */
+        .social-login-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        .social-btn:hover { opacity: 0.85; }
+        .social-btn.google { background: white; color: #444; }
+        .social-btn.facebook { background: #1877F2; color: white; border: none; }
+        
+        .login-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .login-divider::before, .login-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .login-divider:not(:empty)::before { margin-right: 1em; }
+        .login-divider:not(:empty)::after { margin-left: 1em; }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+        <div class="login-box">
+            <div style="font-size: 40px; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-hotel"></i></div>
+            <h2>HotelSys Login</h2>
+
+            <!-- Social Login Mockups -->
+            <div class="social-login-container">
+                <div class="social-btn google" onclick="handleSocialLogin('Google')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_Logo.svg" width="18" height="18" alt="Google" onerror="this.src='https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png'">
+                    Continue with Google
+                </div>
+                <div class="social-btn facebook" onclick="handleSocialLogin('Facebook')">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    Continue with Facebook
+                </div>
+            </div>
+
+            <div class="login-divider">OR</div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" required placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="Enter password">
+                </div>
+                <p id="login-error" style="color: var(--danger); font-size: 13px; display: none; margin-bottom: 10px;">Invalid username or password!</p>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px;">Login</button>
+            </form>
+            
+            <p style="margin-top: 16px; font-size: 11px; color: var(--text-muted); text-align: left; background: var(--bg-light); padding: 10px; border-radius: 6px;">
+                <b>Demo Accounts (Pass: 123456):</b><br>
+                - Customer: <code>customer</code> | Reception: <code>receptionist</code><br>
+                - Manager: <code>manager</code> | Staff: <code>housekeeping</code><br>
+                - Admin: <code>admin</code>
+            </p>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-hotel"></i>
+            <span>HotelSys</span>
+        </div>
+        <ul class="nav-links">
+            <li id="nav-dashboard" class="active" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Reports</li>
+            <li id="nav-rooms-manage" onclick="switchTab('rooms-manage')"><i class="fa-solid fa-bed"></i> Manage Rooms</li>
+            <li id="nav-rooms" onclick="switchTab('rooms')"><i class="fa-solid fa-search"></i> Search & Book</li>
+            <li id="nav-my-bookings" onclick="switchTab('my-bookings')" style="display: none;"><i class="fa-solid fa-clock-rotate-left"></i> My Bookings</li>
+            <li id="nav-reception" onclick="switchTab('reception')"><i class="fa-solid fa-concierge-bell"></i> Reception Desk</li>
+            <li id="nav-customers" onclick="switchTab('customers')"><i class="fa-solid fa-users"></i> Customers</li>
+            <li id="nav-services" onclick="switchTab('services')"><i class="fa-solid fa-mug-hot"></i> Services</li>
+            <li id="nav-housekeeping" onclick="switchTab('housekeeping')"><i class="fa-solid fa-broom"></i> Housekeeping</li>
+            <li id="nav-admin" onclick="switchTab('admin')"><i class="fa-solid fa-user-shield"></i> System Admin</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div>
+                <h2 id="topbar-title" style="font-size: 18px; color: var(--text-muted);">Dashboard</h2>
+            </div>
+            <div class="user-profile">
+                <div style="text-align: right;">
+                    <p id="current-user-name" style="font-weight: 600; font-size: 14px;">Administrator</p>
+                    <p id="current-user-role" style="font-size: 12px; color: var(--text-muted);">Admin</p>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=Admin&background=1E3A8A&color=fff" alt="User" id="user-avatar">
+                <button class="btn" style="background: transparent; color: var(--danger); margin-left: 8px; padding: 4px 8px; font-size: 16px;" onclick="handleLogout()" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="content-area">
+            
+            <div id="dashboard" class="section active">
+                <h2 class="section-title">Activity Report</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-blue"><i class="fa-solid fa-door-open"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-total">12</h3>
+                            <p>Total Rooms</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-orange"><i class="fa-solid fa-user-check"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-occupied">0</h3>
+                            <p>Occupied Rooms</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-green"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-revenue">$0</h3>
+                            <p>Expected Revenue</p>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="section-title" style="margin-top: 40px; font-size: 20px;">Recent Activity</h2>
+                <div class="table-container">
+                    <table id="recent-activity-table"></table>
+                </div>
+            </div>
+
+            <div id="rooms-manage" class="section">
+                <h2 class="section-title">Room Information Management</h2>
+                <div class="table-container">
+                    <table id="rooms-manage-table"></table>
+                </div>
+            </div>
+
+            <div id="rooms" class="section">
+                <h2 class="section-title" style="margin-bottom: 10px;">Search & Book Rooms</h2>
+                <div class="search-bar">
+                    <input type="date" id="search-checkin" placeholder="Check-in Date">
+                    <input type="date" id="search-checkout" placeholder="Check-out Date">
+                    <select id="search-type">
+                        <option value="">All Room Types</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Deluxe">Deluxe</option>
+                        <option value="Suite">Suite</option>
+                    </select>
+                    <select id="search-price">
+                        <option value="">Any Price</option>
+                        <option value="100">Under $100/night</option>
+                        <option value="200">Under $200/night</option>
+                        <option value="500">Under $500/night</option>
+                    </select>
+                    <button class="btn btn-primary" style="width: auto;" onclick="renderRooms()"><i class="fa-solid fa-search"></i> Search</button>
+                </div>
+                <div class="room-grid" id="room-list"></div>
+            </div>
+
+            <div id="reception" class="section">
+                <h2 class="section-title">Reception Desk</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Customer</th>
+                                <th>Room</th>
+                                <th>Check-in Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booking-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="customers" class="section">
+                <h2 class="section-title">Customer Management</h2>
+                <div class="table-container">
+                    <table id="customers-table"></table>
+                </div>
+            </div>
+
+            <div id="services" class="section">
+                <h2 class="section-title">Service Management</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-blue"><i class="fa-solid fa-burger"></i></div>
+                        <div class="stat-info"><h3>Restaurant</h3><p>F&B services</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-orange"><i class="fa-solid fa-shirt"></i></div>
+                        <div class="stat-info"><h3>Laundry</h3><p>Cleaning services</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="housekeeping" class="section">
+                <h2 class="section-title">Housekeeping Updates</h2>
+                <div class="room-grid" id="housekeeping-grid"></div>
+            </div>
+
+            <div id="admin" class="section">
+                <h2 class="section-title">System Administration</h2>
+                <p>Advanced system configuration area.</p>
+            </div>
+
+            <div id="my-bookings" class="section">
+                <h2 class="section-title">My Booking History</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Room</th>
+                                <th>Check-in Date</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my-booking-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL REVIEWS -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content" style="width: 450px;">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeReviewModal()"></i>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Room Reviews</h2>
+            <h4 id="review-room-name" style="margin-bottom: 15px; color: var(--text-dark);"></h4>
+            <div id="review-list" style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;"></div>
+        </div>
+    </div>
+
+    <!-- MODAL BOOKING -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModal()"></i>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Create Reservation</h2>
+            <form id="bookingForm" onsubmit="submitBooking(event)">
+                <input type="hidden" id="book-room-id">
+                <input type="hidden" id="book-room-price">
+                <div class="form-group">
+                    <label>Selected Room:</label>
+                    <input type="text" id="book-room-name" readonly style="background: #f3f4f6;">
+                </div>
+                <div class="form-group">
+                    <label>Customer Name (*)</label>
+                    <input type="text" id="customerName" required placeholder="e.g., John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Check-in Date (*)</label>
+                    <input type="date" id="checkInDate" required>
+                </div>
+                <button type="submit" class="btn btn-accent" style="width: 100%; justify-content: center; margin-top: 10px;">
+                    Confirm Reservation
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- APP LOGIC -->
+    <script>
+        // Global state with 12 Rooms (6 Standard, 4 Deluxe, 2 Suites)
+        window.roomsData = [
+            // 6 Standard Rooms
+            { id: "101", name: "Standard Room 101", type: "Standard", price: 80, img: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=400", rating: 4.5, status: "Available" },
+            { id: "102", name: "Standard Room 102", type: "Standard", price: 80, img: "https://images.unsplash.com/photo-1553444836-bc6c8d340ba7?auto=format&fit=crop&q=80&w=400", rating: 4.0, status: "Occupied" },
+            { id: "103", name: "Standard Room 103", type: "Standard", price: 85, img: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=400", rating: 4.2, status: "Available" },
+            { id: "104", name: "Standard Room 104", type: "Standard", price: 85, img: "https://images.unsplash.com/photo-1553444836-bc6c8d340ba7?auto=format&fit=crop&q=80&w=400", rating: 4.6, status: "Available" },
+            { id: "105", name: "Standard Room 105", type: "Standard", price: 90, img: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=400", rating: 4.1, status: "Cleaning" },
+            { id: "106", name: "Standard Room 106", type: "Standard", price: 90, img: "https://images.unsplash.com/photo-1553444836-bc6c8d340ba7?auto=format&fit=crop&q=80&w=400", rating: 4.7, status: "Available" },
+            // 4 Deluxe Rooms
+            { id: "201", name: "Deluxe Ocean View", type: "Deluxe", price: 150, img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=400", rating: 4.8, status: "Cleaning" },
+            { id: "202", name: "Deluxe City View", type: "Deluxe", price: 140, img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=400", rating: 4.5, status: "Available" },
+            { id: "203", name: "Deluxe Pool View", type: "Deluxe", price: 145, img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=400", rating: 4.9, status: "Occupied" },
+            { id: "204", name: "Deluxe Garden View", type: "Deluxe", price: 135, img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=400", rating: 4.3, status: "Available" },
+            // 2 Presidential Suites
+            { id: "301", name: "Presidential Suite", type: "Suite", price: 300, img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&q=80&w=400", rating: 5.0, status: "Maintenance" },
+            { id: "302", name: "Royal Suite", type: "Suite", price: 350, img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&q=80&w=400", rating: 5.0, status: "Available" }
+        ];
+
+        window.bookingsData = [
+            { id: "BK001", username: "customer", customer: "Demo Customer", roomId: "102", roomName: "Standard Room 102", date: "2024-12-01", status: "Checked-in", price: 80 }
+        ];
+
+        window.customersData = [
+            { id: "C001", name: "Demo Customer", phone: "0901234567", email: "guest@email.com", history: 1 }
+        ];
+
+        window.reviewsData = {
+            "101": [{ user: "Anna Smith", text: "Clean and tidy room.", rating: 5 }],
+            "301": [{ user: "Rich Guy", text: "Absolutely top class.", rating: 5 }]
+        };
+
+        // UI Handlers
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+            const activeLi = document.getElementById(`nav-${tabId}`);
+            if (activeLi) activeLi.classList.add('active');
+
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            const titles = { 
+                'dashboard': 'Activity Report', 'rooms-manage': 'Room Management', 
+                'rooms': 'Search & Book Rooms', 'my-bookings': 'My Booking History', 
+                'reception': 'Reception Desk', 'customers': 'Customer Management', 
+                'services': 'Service Management', 'housekeeping': 'Housekeeping Updates', 'admin': 'System Admin' 
+            };
+            document.getElementById('topbar-title').innerText = titles[tabId] || 'Dashboard';
+            updateApp();
+        };
+
+        window.updateApp = function() {
+            renderRooms(); renderReception(); renderHousekeeping(); 
+            renderRoomsManage(); renderCustomers(); renderDashboard(); renderMyBookings();
+        };
+
+        function renderRooms() { 
+            const container = document.getElementById('room-list');
+            if (!container) return;
+            container.innerHTML = ''; 
+            const userRole = sessionStorage.getItem('userRole');
+
+            const filterType = document.getElementById('search-type')?.value || '';
+            const filterPrice = document.getElementById('search-price')?.value || '';
+            const checkInDate = document.getElementById('search-checkin')?.value || '';
+            const checkOutDate = document.getElementById('search-checkout')?.value || '';
+
+            if (checkInDate && checkOutDate) {
+                if (new Date(checkInDate) >= new Date(checkOutDate)) {
+                    alert("Check-out date must be after Check-in date.");
+                    return;
+                }
+            }
+
+            let filteredRooms = window.roomsData;
+
+            if (filterType) {
+                filteredRooms = filteredRooms.filter(r => r.type === filterType);
+            }
+            if (filterPrice) {
+                filteredRooms = filteredRooms.filter(r => r.price <= parseInt(filterPrice));
+            }
+
+            if (filteredRooms.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No rooms match your search criteria.</p>';
+                return;
+            }
+
+            filteredRooms.forEach(room => {
+                const isAvailable = room.status === 'Available';
+                let actionBtn = '';
+                if (userRole === 'Customer' || userRole === 'Receptionist') {
+                    actionBtn = isAvailable 
+                        ? `<button class="btn btn-primary" onclick="openBookingModal('${room.id}', '${room.name}', ${room.price})">Book Now</button>`
+                        : `<button class="btn" style="background:#e5e7eb; width:100%; cursor:not-allowed;" disabled>Unavailable</button>`;
+                }
+
+                container.innerHTML += `
+                    <div class="room-card">
+                        <img src="${room.img}" alt="${room.name}">
+                        <div class="room-info">
+                            <div style="display: flex; justify-content: space-between;">
+                                <h3>${room.name}</h3>
+                                <div style="color: #F59E0B; font-weight: bold;"><i class="fa-solid fa-star"></i> ${room.rating}</div>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 8px;">${room.type} | ${room.status}</p>
+                            <p class="room-price">$${room.price} <small>/night</small></p>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                ${actionBtn}
+                                <button class="btn" style="background: #F3F4F6;" onclick="openReviewModal('${room.id}', '${room.name}')">Reviews</button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function renderReception() { 
+            const tbody = document.getElementById('booking-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = window.bookingsData.length === 0 ? '<tr><td colspan="6" align="center">No data</td></tr>' : '';
+            [...window.bookingsData].reverse().forEach(b => {
+                let badgeClass = b.status === 'Booked' ? 'badge-booked' : b.status === 'Checked-in' ? 'badge-checked-in' : b.status === 'Pending Payment' ? 'badge-pending' : 'badge-completed';
+                let action = b.status === 'Booked' ? `<button class="btn btn-success" onclick="processCheckIn('${b.id}', '${b.roomId}')">Check-in</button>` :
+                             b.status === 'Checked-in' ? `<button class="btn btn-danger" onclick="processCheckOut('${b.id}', '${b.roomId}')">Check-out</button>` : 
+                             b.status === 'Pending Payment' ? '<span style="color:var(--text-muted); font-size: 13px;">Awaiting User Payment</span>' : 'Archive';
+                tbody.innerHTML += `<tr><td>${b.id}</td><td>${b.customer}</td><td>${b.roomName}</td><td>${b.date}</td><td><span class="badge ${badgeClass}">${b.status}</span></td><td>${action}</td></tr>`;
+            });
+        }
+
+        function renderHousekeeping() { 
+            const grid = document.getElementById('housekeeping-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            window.roomsData.forEach(r => {
+                let badge = r.status === 'Available' ? 'badge-available' : r.status === 'Cleaning' ? 'badge-cleaning' : 'badge-occupied';
+                let action = r.status === 'Available' ? `<button class="btn btn-danger" onclick="changeRoomStatus('${r.id}', 'Maintenance')"><i class="fa-solid fa-wrench"></i> Report Maintenance</button>` :
+                             r.status === 'Cleaning' ? `<button class="btn btn-success" onclick="changeRoomStatus('${r.id}', 'Available')"><i class="fa-solid fa-check"></i> Cleaned</button>` :
+                             r.status === 'Maintenance' ? `<button class="btn btn-primary" onclick="changeRoomStatus('${r.id}', 'Available')"><i class="fa-solid fa-check"></i> Maintenance Done</button>` :
+                             '<span style="color:var(--text-muted); font-size:13px;">In Use</span>';
+                
+                grid.innerHTML += `
+                    <div class="room-card" style="padding:20px;">
+                        <h3>${r.name}</h3>
+                        <p style="margin-bottom:15px;"><span class="badge ${badge}">${r.status}</span></p>
+                        ${action}
+                    </div>`;
+            });
+        }
+
+        function renderDashboard() {
+            const total = document.getElementById('stat-total');
+            if(total) {
+                total.innerText = window.roomsData.length;
+                document.getElementById('stat-occupied').innerText = window.roomsData.filter(r => r.status === 'Occupied').length;
+                document.getElementById('stat-revenue').innerText = '$' + window.bookingsData.reduce((s, b) => s + b.price, 0);
+            }
+        }
+
+        function renderMyBookings() {
+            const tbody = document.getElementById('my-booking-table-body');
+            if(!tbody) return;
+            const user = sessionStorage.getItem('username');
+            const data = window.bookingsData.filter(b => b.username === user);
+            tbody.innerHTML = data.length ? '' : '<tr><td colspan="6" align="center">No history</td></tr>';
+            data.reverse().forEach(b => {
+                let badgeClass = b.status === 'Booked' ? 'badge-booked' : b.status === 'Pending Payment' ? 'badge-pending' : b.status === 'Completed' ? 'badge-completed' : 'badge-checked-in';
+                let actionBtn = b.status === 'Pending Payment' ? `<button class="btn btn-accent" onclick="userPayBill('${b.id}')">Pay Now</button>` : '';
+                tbody.innerHTML += `<tr><td>${b.id}</td><td>${b.roomName}</td><td>${b.date}</td><td>$${b.price}</td><td><span class="badge ${badgeClass}">${b.status}</span></td><td>${actionBtn}</td></tr>`;
+            });
+        }
+
+        function renderRoomsManage() {
+            const t = document.getElementById('rooms-manage-table');
+            if(t) t.innerHTML = '<tr><th>ID</th><th>Name</th><th>Price</th><th>Status</th></tr>' + window.roomsData.map(r => `<tr><td>${r.id}</td><td>${r.name}</td><td>$${r.price}</td><td>${r.status}</td></tr>`).join('');
+        }
+
+        function renderCustomers() {
+            const t = document.getElementById('customers-table');
+            if(t) t.innerHTML = '<tr><th>ID</th><th>Name</th><th>Email</th></tr>' + window.customersData.map(c => `<tr><td>${c.id}</td><td>${c.name}</td><td>${c.email}</td></tr>`).join('');
+        }
+
+        // Logic functions
+        window.changeRoomStatus = (roomId, newStatus) => {
+            const room = window.roomsData.find(r => r.id === roomId);
+            if (room) { room.status = newStatus; updateApp(); }
+        }
+
+        window.processCheckIn = (bid, rid) => { 
+            const b = window.bookingsData.find(x => x.id === bid);
+            if(b) b.status = 'Checked-in';
+            const r = window.roomsData.find(x => x.id === rid);
+            if(r) r.status = 'Occupied';
+            updateApp();
+        };
+
+        window.processCheckOut = (bid, rid) => {
+            const b = window.bookingsData.find(x => x.id === bid);
+            if(b) b.status = 'Pending Payment';
+            const r = window.roomsData.find(x => x.id === rid);
+            if(r) r.status = 'Cleaning';
+            updateApp();
+        };
+
+        window.userPayBill = (bid) => {
+            const b = window.bookingsData.find(x => x.id === bid);
+            if(b) {
+                b.status = 'Completed';
+                alert(`Payment of $${b.price} processed successfully via Secure Demo Gateway!\nThank you for your stay.`);
+                updateApp();
+            }
+        };
+
+        window.openBookingModal = (id, name, price) => {
+            document.getElementById('book-room-id').value = id;
+            document.getElementById('book-room-name').value = name;
+            document.getElementById('book-room-price').value = price;
+            document.getElementById('customerName').value = sessionStorage.getItem('displayName') || '';
+            
+            const searchCheckIn = document.getElementById('search-checkin')?.value;
+            if(searchCheckIn) {
+                document.getElementById('checkInDate').value = searchCheckIn;
+            } else {
+                document.getElementById('checkInDate').valueAsDate = new Date();
+            }
+            
+            document.getElementById('bookingModal').classList.add('active');
+        };
+
+        window.closeModal = () => document.getElementById('bookingModal').classList.remove('active');
+
+        window.submitBooking = (e) => {
+            e.preventDefault();
+            const bid = "BK" + Math.floor(Math.random()*10000);
+            window.bookingsData.push({
+                id: bid,
+                username: sessionStorage.getItem('username'),
+                customer: document.getElementById('customerName').value,
+                roomId: document.getElementById('book-room-id').value,
+                roomName: document.getElementById('book-room-name').value,
+                date: document.getElementById('checkInDate').value,
+                status: "Booked",
+                price: parseInt(document.getElementById('book-room-price').value)
+            });
+            changeRoomStatus(document.getElementById('book-room-id').value, 'Booked');
+            window.closeModal();
+            alert("Booked successfully!");
+            updateApp();
+        };
+
+        window.openReviewModal = (id, name) => {
+            document.getElementById('review-room-name').innerText = name;
+            const list = document.getElementById('review-list');
+            list.innerHTML = (window.reviewsData[id] || []).map(rv => `<div style="background:#f9fafb;padding:10px;border-radius:8px;"><strong>${rv.user}</strong><p>${rv.text}</p></div>`).join('') || 'No reviews';
+            document.getElementById('reviewModal').classList.add('active');
+        };
+
+        window.closeReviewModal = () => document.getElementById('reviewModal').classList.remove('active');
+
+        // Initial check on load
+        window.onload = () => {
+            if (sessionStorage.getItem('isLoggedIn')) {
+                document.getElementById('login-screen').style.display = 'none';
+                restoreUserSession();
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+            }
+        };
+
+        // Manual Login Handle
+        window.handleLogin = (e) => {
+            e.preventDefault();
+            const u = document.getElementById('username').value.toLowerCase();
+            const p = document.getElementById('password').value;
+            
+            const users = {
+                'admin': { role: 'Admin', name: 'System Admin' },
+                'manager': { role: 'Manager', name: 'Hotel Manager' },
+                'receptionist': { role: 'Receptionist', name: 'Front Desk' },
+                'housekeeping': { role: 'Housekeeping', name: 'Staff' },
+                'customer': { role: 'Customer', name: 'Guest User' }
+            };
+
+            if (users[u] && p === '123456') {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('userRole', users[u].role);
+                sessionStorage.setItem('username', u);
+                sessionStorage.setItem('displayName', users[u].name);
+                document.getElementById('login-screen').style.display = 'none';
+                restoreUserSession();
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        };
+
+        // Social Login Mock Function
+        window.handleSocialLogin = (provider) => {
+            const mockName = provider + " Guest";
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('userRole', 'Customer');
+            sessionStorage.setItem('username', provider.toLowerCase() + '_user');
+            sessionStorage.setItem('displayName', mockName);
+            document.getElementById('login-screen').style.display = 'none';
+            restoreUserSession();
+            alert("Signed in successfully with " + provider + "!");
+        };
+
+        // Restore Session State
+        window.restoreUserSession = function() {
+            const role = sessionStorage.getItem('userRole');
+            const dName = sessionStorage.getItem('displayName');
+            
+            document.getElementById('current-user-name').innerText = dName;
+            document.getElementById('current-user-role').innerText = role;
+            document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=1E3A8A&color=fff`;
+            
+            document.querySelectorAll('.nav-links li').forEach(li => li.style.display = 'none');
+            
+            const mapping = {
+                'Customer': ['rooms', 'my-bookings'],
+                'Receptionist': ['reception', 'customers', 'services', 'rooms'],
+                'Manager': ['dashboard', 'rooms-manage'],
+                'Housekeeping': ['housekeeping'],
+                'Admin': ['admin', 'dashboard', 'rooms-manage', 'reception', 'customers', 'services', 'housekeeping']
+            };
+
+            (mapping[role] || []).forEach(id => {
+                const el = document.getElementById(`nav-${id}`);
+                if(el) el.style.display = 'flex';
+            });
+
+            switchTab(mapping[role][0]);
+        };
+
+        window.handleLogout = () => {
+            sessionStorage.clear();
+            document.getElementById('loginForm').reset();
+            document.getElementById('login-screen').style.display = 'flex';
+        };
+
+        // Attach listeners
+        document.getElementById('loginForm').addEventListener('submit', window.handleLogin);
+/* === ADMINISTRATIVE & MONITORING MODULE === */
+
+// 1. Extended Global State
+window.usersData = [
+    { id: "U001", username: "admin", name: "System Admin", role: "Admin", status: "Active" },
+    { id: "U002", username: "manager", name: "Hotel Manager", role: "Manager", status: "Active" },
+    { id: "U003", username: "receptionist", name: "Front Desk", role: "Receptionist", status: "Active" },
+    { id: "U004", username: "customer", name: "Guest User", role: "Customer", status: "Active" },
+    { id: "U005", username: "housekeeping", name: "Staff", role: "Housekeeping", status: "Active" }
+];
+
+window.activityLogs = [
+    { timestamp: new Date().toLocaleString(), user: "System", action: "Initialization", details: "Security protocols active." }
+];
+
+// 2. Monitoring Logic: Log every important action
+const originalUpdateApp = window.updateApp;
+window.updateApp = function() {
+    if (originalUpdateApp) originalUpdateApp();
+    renderActivityLog();
+    renderUserManagement();
+};
+
+window.logActivity = function(action, details) {
+    const user = sessionStorage.getItem('username') || "Unknown";
+    window.activityLogs.unshift({
+        timestamp: new Date().toLocaleString(),
+        user: user,
+        action: action,
+        details: details
+    });
+    renderActivityLog();
+};
+
+// 3. UI Rendering for Admin Section
+function renderActivityLog() {
+    const activityTable = document.getElementById('recent-activity-table');
+    if (!activityTable) return;
+    activityTable.innerHTML = `
+        <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
+        <tbody>${window.activityLogs.slice(0, 8).map(log => `
+            <tr>
+                <td>${log.timestamp.split(',')[1]}</td>
+                <td><strong>${log.user}</strong></td>
+                <td>${log.action}</td>
+                <td style="font-size: 12px; color: var(--text-muted);">${log.details}</td>
+            </tr>`).join('')}
+        </tbody>`;
+}
+
+function renderUserManagement() {
+    const adminBody = document.getElementById('admin-users-body');
+    if (!adminBody) {
+        // If the table doesn't exist yet, inject it into the #admin section
+        const adminSection = document.getElementById('admin');
+        if (adminSection) {
+            adminSection.innerHTML = `
+                <h2 class="section-title">System Administration</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card" style="cursor:pointer;" onclick="alert('Database backup successful!')">
+                        <div class="stat-icon bg-blue"><i class="fa-solid fa-database"></i></div>
+                        <div class="stat-info"><h3>Maintenance</h3><p>Run System Backup</p></div>
+                    </div>
+                </div>
+                <h3 style="margin: 20px 0 10px;">User Accounts & Permissions</h3>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>User Info</th><th>Role (RBAC)</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody id="admin-users-body"></tbody>
+                    </table>
+                </div>`;
+            renderUserManagement(); // Re-run to fill the body
+            return;
+        }
+    } else {
+        adminBody.innerHTML = window.usersData.map(user => `
+            <tr>
+                <td><strong>${user.name}</strong><br><small>@${user.username}</small></td>
+                <td>
+                    <select onchange="updateUserRole('${user.id}', this.value)">
+                        <option ${user.role==='Admin'?'selected':''}>Admin</option>
+                        <option ${user.role==='Manager'?'selected':''}>Manager</option>
+                        <option ${user.role==='Receptionist'?'selected':''}>Receptionist</option>
+                        <option ${user.role==='Housekeeping'?'selected':''}>Housekeeping</option>
+                        <option ${user.role==='Customer'?'selected':''}>Customer</option>
+                    </select>
+                </td>
+                <td><span class="badge ${user.status==='Active'?'badge-checked-in':'badge-maintenance'}">${user.status}</span></td>
+                <td><button class="btn-danger btn" onclick="toggleUserStatus('${user.id}')">Toggle</button></td>
+            </tr>`).join('');
+    }
+}
+
+// 4. Admin Action Handlers
+window.updateUserRole = function(id, role) {
+    const user = window.usersData.find(u => u.id === id);
+    if (user) {
+        const oldRole = user.role;
+        user.role = role;
+        window.logActivity("Permission Change", `Changed ${user.username} from ${oldRole} to ${role}`);
+    }
+};
+
+window.toggleUserStatus = function(id) {
+    const user = window.usersData.find(u => u.id === id);
+    if (user) {
+        user.status = user.status === 'Active' ? 'Suspended' : 'Active';
+        window.logActivity("User Access", `${user.username} status set to ${user.status}`);
+        window.updateApp();
+    }
+};
+
+// 5. Hook into existing events for monitoring
+const originalSubmit = window.submitBooking;
+window.submitBooking = function(e) {
+    originalSubmit(e);
+    window.logActivity("Booking", "New reservation created");
+};
+
+const originalCheckIn = window.processCheckIn;
+window.processCheckIn = function(bid, rid) {
+    originalCheckIn(bid, rid);
+    window.logActivity("Check-In", `Room ${rid} occupied`);
+};
+
+
+    </script>
+</body>
+>>>>>>> 8e8d6a9209387b66c62251b8b3e9d1eb1b61e757
 </html>
